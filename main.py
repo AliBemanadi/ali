@@ -17,6 +17,9 @@ def reserve_food(student_id, food_id, reserve_or_delete):
     else:
         mycursor.execute(f'delete from reserved_food where studentID = {student_id} and foodID = {food_id}')
 
+    mycursor.execute('select * from reserved_food')
+    return mycursor.fetchall()
+
 
 def review_schedule(student_id):
     mycursor.execute(
@@ -24,10 +27,27 @@ def review_schedule(student_id):
     return mycursor.fetchall()
 
 
+def edit_info(student_id, field, edit):
+    mycursor.execute(f'update student set {field} = "{edit}" where universityID = {student_id}')
+    mycursor.execute('select * from student')
+    return mycursor.fetchall()
+
+
+def observe():
+    mycursor.execute('select * from course')
+    return mycursor.fetchall()
+
+
+
+
 # reserve_food(input(), int(input()), input())
 # mycursor.execute('select * from reserved_food')
 
 # print(review_schedule(input()))
+
+# print(edit_info(input(), input(), input()))
+
+# for elem in observe(): print(elem)
 
 # mycursor.execute('''CREATE
 #     ALGORITHM = UNDEFINED
