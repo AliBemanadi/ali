@@ -58,6 +58,47 @@ def exam_schedule(student_id):
     mycursor.execute(f'SELECT distinct CourseName, examDay, examTime, examLocation FROM mydb.course, mydb.presenceabsence as p where CourseNo = p.course_courseNo and p.CourseSchedule_Student_universityID = "{student_id}";')
     return mycursor.fetchall()
 
+
+def pool(student_id):
+    mycursor.execute(f'SELECT StartTime, FinishTime, Price FROM mydb.pool where Student_universityID = "{student_id}";')
+    return mycursor.fetchall()
+
+
+def pool_priceSum(student_id):
+    mycursor.execute(f'SELECT Student_universityID, sum(price) FROM mydb.pool group by Student_universityID having Student_universityID = "{student_id}";')
+    return mycursor.fetchall()
+
+
+def lab(prof_id):
+    mycursor.execute(f'SELECT LabName, LabID, LabLoc FROM mydb.lab, mydb.professor as p where p.idProfessor = Professor_idProfessor and p.idProfessor = "{prof_id}";')
+    return mycursor.fetchall()
+
+
+def money(student_id):
+    mycursor.execute(f'SELECT Money FROM mydb.student where universityID = "{student_id}";')
+    return mycursor.fetchall()
+
+
+def count_on_gender_stu():
+    mycursor.execute('SELECT gender, count(gender) FROM mydb.student group by gender ;')
+    return mycursor.fetchall()
+
+
+def count_on_gender_prof():
+    mycursor.execute('SELECT gender, count(gender) FROM mydb.professor group by gender ;')
+    return mycursor.fetchall()
+
+
+def manager_prof():
+    mycursor.execute('SELECT ProfName FROM mydb.professor where MProf = 1;')
+    return mycursor.fetchall()
+
+
+def course_reservation():
+    mycursor.execute('SELECT CourseName, reserved FROM mydb.course order by reserved desc;')
+    return mycursor.fetchall()
+
+
 # reserve_food(input(), int(input()), input())
 # mycursor.execute('select * from reserved_food')
 
@@ -73,12 +114,23 @@ def exam_schedule(student_id):
 
 # for elem in prof_score(input(), int(input()), input()): print(elem)
 
-for elem in exam_schedule(input()): print(elem)
+# for elem in exam_schedule(input()): print(elem)
 
+# for elem in pool(input()): print(elem)
 
+# print(pool_priceSum(input()))
 
+# for elem in lab(input()): print(elem)
 
+# print(money(input())[0][0])
 
+# for elem in count_on_gender_stu(): print(elem)
+
+# for elem in count_on_gender_prof(): print(elem)
+
+# for elem in manager_prof(): print(elem[0])
+
+for elem in course_reservation(): print(elem)
 
 users = mycursor.fetchall()
 for user in users:
