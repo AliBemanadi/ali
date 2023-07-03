@@ -38,7 +38,25 @@ def observe():
     return mycursor.fetchall()
 
 
+def karname(student_id):
+    mycursor.execute(f'SELECT * FROM mydb.academictranscrips where Student_univercityID = {student_id};')
+    return mycursor.fetchall()
 
+
+def present_absent(student_id):
+    mycursor.execute(f'SELECT * FROM mydb.presenceabsence where CourseSchedule_Student_universityID = {student_id};')
+    return mycursor.fetchall()
+
+
+def prof_score(student_id, score, prof_name):
+    mycursor.execute(f'update evaluationofprofessors set ProfessorScore = {score} where Student_universityID = "{student_id}" and ProfessorsName = "{prof_name}";')
+    mycursor.execute('select * from evaluationofprofessors where Student_universityID = "{student_id}" and ProfessorsName = "{prof_name}";')
+    return mycursor.fetchall()
+
+
+def exam_schedule(student_id):
+    mycursor.execute(f'SELECT distinct CourseName, examDay, examTime, examLocation FROM mydb.course, mydb.presenceabsence as p where CourseNo = p.course_courseNo and p.CourseSchedule_Student_universityID = "{student_id}";')
+    return mycursor.fetchall()
 
 # reserve_food(input(), int(input()), input())
 # mycursor.execute('select * from reserved_food')
@@ -48,6 +66,34 @@ def observe():
 # print(edit_info(input(), input(), input()))
 
 # for elem in observe(): print(elem)
+
+# for elem in karname(input()): print(elem)
+
+# for elem in present_absent(input()): print(elem)
+
+# for elem in prof_score(input(), int(input()), input()): print(elem)
+
+for elem in exam_schedule(input()): print(elem)
+
+
+
+
+
+
+users = mycursor.fetchall()
+for user in users:
+    print(user)
+
+mydb.commit()
+mydb.close()
+
+
+
+
+
+
+
+
 
 # mycursor.execute('''CREATE
 #     ALGORITHM = UNDEFINED
@@ -68,10 +114,3 @@ def observe():
 #             AND (`a`.`Professor_idProfessor` = `c`.`Professor_idProfessor`))
 #     GROUP BY `s`.`name`
 #     HAVING (SUM(`c`.`unit`) < 12)''')
-
-users = mycursor.fetchall()
-for user in users:
-    print(user)
-
-mydb.commit()
-mydb.close()
